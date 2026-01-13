@@ -19,44 +19,62 @@ usage:
   Options:
 
     -h/--help                              Show this information
-    -v/--version                           Show the version of the program
+    -v/--version                           Show the version of the program (JSON)
     -k/--keep-running                      Continue processing additional actions despite
                                            encountering errors
 
   Actions:
 
-    -d/--list-devices                      Display a list of all UVC-capable devices
-    -c/--list-controls                     Display a list of UVC controls implemented
+    -d/--list-devices                      Display a list of all UVC-capable devices (JSON)
+    -c/--list-controls                     Display a list of UVC controls implemented (JSON)
 
     Available after a target device is selected:
 
     -c/--list-controls                     Display a list of UVC controls available for
-                                           the target device
+                                           the target device (JSON)
 
-    -S <control-name>                      Display available information for the given
-    --show-control=<control-name>          UVC control:  component fields for multi-value
-                                           types, minimum, maximum, resolution, and default
-                                           value when provided:
+    -S (<control-name>|*)                  Display available information for the given
+    --show-control=(<control-name>|*)      UVC control (or all controls for "*") in JSON
+                                           format.  Includes component fields for
+                                           multi-value types, minimum, maximum,
+                                           resolution, default, and current values:
 
-        pan-tilt-abs {
-          type-description: {
-            signed 32-bit integer            pan;
-            signed 32-bit integer            tilt;
+        {
+          "name" : "pan-tilt-abs",
+          "type-description" : {
+            "pan" : "signed 32-bit integer",
+            "tilt" : "signed 32-bit integer"
           },
-          minimum: {pan=-648000,tilt=-648000}
-          maximum: {pan=648000,tilt=648000}
-          step-size: {pan=3600,tilt=3600}
-          default-value: {pan=0,tilt=0}
+          "minimum" : {
+            "pan" : -648000,
+            "tilt" : -648000
+          },
+          "maximum" : {
+            "pan" : 648000,
+            "tilt" : 648000
+          },
+          "step-size" : {
+            "pan" : 3600,
+            "tilt" : 3600
+          },
+          "default-value" : {
+            "pan" : 0,
+            "tilt" : 0
+          },
+          "current-value" : {
+            "pan" : 0,
+            "tilt" : 0
+          }
         }
 
-    -g <control-name>                      Get the value of a control.
+    -g <control-name>                      Get the value of a control (JSON).
     --get=<control-name>
 
     -o <control-name>                      Same as -g/--get, but ONLY the value of the control
-    --get-value=<control-name>             is displayed (no label)
+    --get-value=<control-name>             is displayed as a JSON object (no label)
 
     -s <control-name>=<value>              Set the value of a control; see below for a
-    --set=<control-name>=<value>           description of <value>
+    --set=<control-name>=<value>           description of <value> (returns JSON status)
 
     Specifying <value> for -s/--set:
 
